@@ -17,8 +17,15 @@ class App extends Component {
   handleOnSubmit = event => {
     event.preventDefault();
     console.log("Todo being added: ", this.state.todo);
-    this.props.dispatch({ type: 'ADD_TODO', todo: this.state.todo });
+    this.props.addTodo(this.state.todo);
     this.setState({ todo: '' });
+  }
+
+  addTodo = todo => {
+    return {
+      type: 'ADD_TODO',
+      todo: todo
+    }
   }
 
   render() {
@@ -47,4 +54,12 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => {
+  return {
+    addTodo: todo => {
+      dispatch(addTodo(todo))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
